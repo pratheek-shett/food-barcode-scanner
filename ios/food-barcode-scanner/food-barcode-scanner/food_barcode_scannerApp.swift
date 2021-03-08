@@ -6,12 +6,35 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct food_barcode_scannerApp: App {
+    
+    init() {
+        // Use Firebase library to configure APIs
+        FirebaseApp.configure()
+    }
+    
+    @StateObject var router: Router = Router()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RouterView(router: router)
         }
     }
 }
+
+
+class Router: ObservableObject {
+    
+    @Published var currentPage: Page = .SignInPage
+    
+}
+
+enum Page {
+    case SignInPage
+    case RegisterPage
+    case HomePage
+}
+
