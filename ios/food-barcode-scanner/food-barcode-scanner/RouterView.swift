@@ -10,7 +10,6 @@ import SwiftUI
 
 struct RouterView: View {
     
-//    @EnvironmentObject var userAuth:
     @StateObject var router: Router
 
     var body: some View {

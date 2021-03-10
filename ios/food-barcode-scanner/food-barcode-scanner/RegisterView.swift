@@ -15,7 +15,6 @@ struct RegisterView: View {
     @State var password: String = ""
     
     var body: some View {
-//        NavigationView {
         VStack {
             Text("Create Account")
                 .font(.title)
@@ -30,14 +29,12 @@ struct RegisterView: View {
                 .disableAutocorrection(true)
                 .frame(width: 150, height: 30, alignment: .center)
                 .padding(.horizontal, 20)
-            Button(action: { Register() }, label: { Text("Register") })
+            Button(action: {
+                Register()
+            }, label: { Text("Register") })
                 .padding(.top, 20)
-                
-//                NavigationLink(destination: SignInView()) {
-//                    Text("Go To Sign In")
-//                }
-                    
-//            }
+            Button(action: { router.currentPage = .SignInPage }, label: { Text("Already Have an Account? Sign In") })
+                .padding()
         }
         
     }
@@ -47,10 +44,12 @@ struct RegisterView: View {
             if error != nil {
                 print(error?.localizedDescription ?? "")
             } else {
+                router.currentPage = .SignInPage
                 print("Success")
             }
         }
     }
+    
 }
 
 

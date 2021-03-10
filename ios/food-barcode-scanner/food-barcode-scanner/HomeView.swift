@@ -13,21 +13,19 @@ struct HomeView: View {
     
     var body: some View {
         Text("You are logged in!")
-        Button(action: { signOut() }, label: {
-            Text("SIGN OUT")
-        })
+        Button(action: { signOut() }, label: { Text("SIGN OUT") })
     }
     
     func signOut() {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
+            router.currentPage = .SignInPage
             
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
     }
-    
     
 }
 
