@@ -27,7 +27,7 @@ struct food_barcode_scannerApp: App {
 
 
 class Router: ObservableObject {
-    @Published var currentPage: Page = .SignInPage
+    @Published var currentPage: Page = .HomePage
 }
 
 enum Page {

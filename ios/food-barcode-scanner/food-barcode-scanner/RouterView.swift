@@ -11,6 +11,7 @@ import SwiftUI
 struct RouterView: View {
     
     @StateObject var router: Router
+//    @State var barcodeScanner: BarcodeScanner
 
     var body: some View {
         switch router.currentPage {
@@ -19,7 +20,7 @@ struct RouterView: View {
         case .RegisterPage:
             RegisterView(router: router)
         case .HomePage:
-            HomeView(router: router)
+            HomeView(router: router, barcodeScanner: BarcodeScanner())
         }
     }
     
