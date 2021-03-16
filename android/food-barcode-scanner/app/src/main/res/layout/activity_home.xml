@@ -23,6 +23,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Sign Out"
+        app:layout_constraintEnd_toEndOf="@+id/btnScanBarcode"
+        app:layout_constraintStart_toStartOf="@+id/btnScanBarcode"
+        app:layout_constraintTop_toBottomOf="@+id/btnScanBarcode" />
+
+    <Button
+        android:id="@+id/btnScanBarcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Scan Barcode"
         app:layout_constraintEnd_toEndOf="@+id/textWelcome"
         app:layout_constraintStart_toStartOf="@+id/textWelcome"
         app:layout_constraintTop_toBottomOf="@+id/textWelcome" />

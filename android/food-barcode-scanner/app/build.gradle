@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.lorworwag.food_barcode_scanner"
-        minSdkVersion 28
+        minSdkVersion 27
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -45,6 +45,21 @@ dependencies {
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth'
+
+    // ML Kit
+    // Use this dependency to bundle the model with your app
+    //implementation 'com.google.mlkit:barcode-scanning:16.1.1'
+
+    // CameraX
+    //def camerax_version = "1.0.0-beta07"
+    // CameraX core library using camera2 implementation
+    //implementation "androidx.camera:camera-camera2:$camerax_version"
+    // CameraX Lifecycle Library
+    //implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    // CameraX View class
+    //implementation "androidx.camera:camera-view:1.0.0-alpha14"
+
+    implementation 'com.journeyapps:zxing-android-embedded:4.2.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
