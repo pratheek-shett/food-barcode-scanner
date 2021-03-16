@@ -16,7 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Foodbarcodescanner">
-        <activity android:name=".BarcodeScanActivity" />
         <activity android:name=".LogInActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
