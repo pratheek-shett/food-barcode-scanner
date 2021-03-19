@@ -8,10 +8,16 @@
 import SwiftUI
 import Firebase
 
+//class HomeViewDelegate: ObservableObject {
+//    @Published var result: String?
+//}
+
 struct HomeView: View {
     @StateObject var router: Router
-    @State var barcodeScanner: BarcodeScanner
+//    @State var barcodeScanner: BarcodeScanner
     @State var action: Int? = 0
+    @State var result: String?
+//    @ObservedObject var delegate: HomeViewDelegate
     
     var body: some View {
         NavigationView {
@@ -24,6 +30,14 @@ struct HomeView: View {
                     }, label: { Text("SCAN BARCODE") })
                     .padding()
                 }
+                
+                Button(action: {
+//                    BarcodeScanner()
+                }, label: {
+                    Text("go to BarcodeScanner")
+                })
+                
+                Text(result ?? "No value")
                 
                 Button(action: { signOut() }, label: { Text("SIGN OUT") })
                     .padding()

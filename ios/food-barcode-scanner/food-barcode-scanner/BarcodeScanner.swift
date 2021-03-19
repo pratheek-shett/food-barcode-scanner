@@ -8,11 +8,14 @@
 import Foundation
 import AVFoundation
 import UIKit
+import Firebase
+import SwiftUI
 
 class BarcodeScanner: UIViewController {
     
     var captureSession: AVCaptureSession = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
+//    @Binding var result: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +79,11 @@ class BarcodeScanner: UIViewController {
 
 extension BarcodeScanner: AVCaptureMetadataOutputObjectsDelegate {
     
+    
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+//        let delegate = HomeViewDelegate()
+//        let controller = UIHostingController(rootView: HomeView())
+        
         if let first = metadataObjects.first {
             guard let readableObject = first as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
@@ -90,6 +97,19 @@ extension BarcodeScanner: AVCaptureMetadataOutputObjectsDelegate {
     
     func found(code: String) {
         print(code)
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+//        ref.child("Message").setValue("hello from ios")
+        
+        ref.child("Message").getData { (error, snapshot) in
+            if let error = error {
+                print("Error getting data \(error)")
+            } else if snapshot.exists() {
+                print("Got data \(snapshot.value!)")
+            } else {
+                print("No data available")
+            }
+        }
     }
     
 }
