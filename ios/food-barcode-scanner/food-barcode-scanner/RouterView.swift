@@ -12,6 +12,7 @@ struct RouterView: View {
     
     @StateObject var router: Router
 //    @State var barcodeScanner: BarcodeScanner
+//    let delegate = HomeViewDelegate()
 
     var body: some View {
         switch router.currentPage {
@@ -20,7 +21,7 @@ struct RouterView: View {
         case .RegisterPage:
             RegisterView(router: router)
         case .HomePage:
-            HomeView(router: router, barcodeScanner: BarcodeScanner())
+            HomeView(router: router)
         }
     }
     
