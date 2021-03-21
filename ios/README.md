@@ -18,6 +18,7 @@ These two barcodes have related data in the database. </br>
 
 ## Demo
 
-Due to the demo video size is too large, watch it here on Youtube: [Demo Link](https://youtu.be/yuNcS2xVUhc)
+Due to the demo video size is too large, watch the FULL demo here on Youtube: [Demo Link](https://youtu.be/yuNcS2xVUhc)
 
 ![SignIn SignUp Demo](demos/signin_signup_demo.gif)
+![Barcode Scan Demo](demos/barcode_scan_demo.gif)
