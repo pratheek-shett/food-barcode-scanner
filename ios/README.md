@@ -15,3 +15,9 @@ So to open the project in Xcode, open .xcworkspace file instead of .xcodeproj fi
 You need a real device not a simulate to be able to scan the barcode. I use iPhone 12 Pro Max for testing. </br>
 There are two barcode images in this directory you can use them for testing. </br>
 These two barcodes have related data in the database. </br>
+
+## Demo
+
+Due to the demo video size is too large, watch it here on Youtube: [Demo Link](https://youtu.be/yuNcS2xVUhc)
+
+![SignIn SignUp Demo](demos/signin_signup_demo.gif)
