@@ -47,7 +47,7 @@ struct RouterView: View {
 // MARK:- View Models
 
 class Router: ObservableObject {
-    @Published var currentPage: Page = .HomePage
+    @Published var currentPage: Page = .SignInPage
 }
 
 // MARK:- Templates
