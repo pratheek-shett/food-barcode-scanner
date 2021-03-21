@@ -7,7 +7,7 @@ SER 423 semester project </br>
 
 ## iOS
 
-Click [here](ios/README.md) for detailed description on iOS. Or open the ios folder in this directory. </br>
+Click [here](ios/) for detailed description on iOS. Or open the ios folder in this directory. </br>
 
 ## Android
 
