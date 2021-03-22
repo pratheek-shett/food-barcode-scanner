@@ -1,8 +1,10 @@
 package com.lorworwag.food_barcode_scanner;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +24,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private Button btnScanBarcode;
-    private TextView txtBarcode;
+//    private TextView txtBarcode;
     private Button btnSignOut;
 
     @Override
@@ -33,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         btnScanBarcode = findViewById(R.id.btnScanBarcode);
-        txtBarcode = findViewById(R.id.txtBarcode);
+//        txtBarcode = findViewById(R.id.txtBarcode);
         btnSignOut = findViewById(R.id.btnSignOut);
 
         btnScanBarcode.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        txtBarcode.setText("abc");
+//        txtBarcode.setText("abc");
     }
 
     @Override
@@ -69,23 +71,37 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public void scanBarcode(View view) {
-        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+        IntentIntegrator intentIntegrator = new IntentIntegrator(HomeActivity.this);
+        intentIntegrator.setPrompt("For flash use volume up key");
+        intentIntegrator.setBeepEnabled(true);
+        intentIntegrator.setOrientationLocked(true);
+        intentIntegrator.setCaptureActivity(Capture.class);
         intentIntegrator.initiateScan();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (intentResult != null) {
-            if (intentResult.getContents() == null) {
-                Toast.makeText(HomeActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
-                txtBarcode.setText("Cancelled");
-            } else {
-                Toast.makeText(HomeActivity.this, intentResult.getContents().toString(), Toast.LENGTH_LONG).show();
-                txtBarcode.setText("abc");
-            }
-        }
         super.onActivityResult(requestCode, resultCode, data);
+
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if (intentResult.getContents() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+            builder.setTitle("Result");
+            builder.setMessage(intentResult.getContents());
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+        } else {
+            Toast.makeText(getApplicationContext(), "OOPS... You did not scan anything", Toast.LENGTH_LONG).show();
+
+//                txtBarcode.setText("abc");
+        }
+
     }
 
 
