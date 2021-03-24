@@ -3,6 +3,8 @@ package com.lorworwag.food_barcode_scanner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
@@ -33,6 +35,10 @@ public class HomeActivity extends AppCompatActivity {
     private TextView txtBarcode;
     private Button btnSignOut;
     private RecyclerView recyclerViewIngredients;
+    private TextView txtIngredients;
+    private RecyclerView recyclerViewNutritionFacts;
+    private TextView txtNutritionFacts;
+    private TextView txtProductName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,16 @@ public class HomeActivity extends AppCompatActivity {
         btnScanBarcode = findViewById(R.id.btnScanBarcode);
         txtBarcode = findViewById(R.id.txtBarcode);
         recyclerViewIngredients = findViewById(R.id.recyclerViewIngredients);
+        txtIngredients = findViewById(R.id.txtIngredients);
         btnSignOut = findViewById(R.id.btnSignOut);
+        recyclerViewNutritionFacts = findViewById(R.id.recyclerViewNutritionFacts);
+        txtNutritionFacts = findViewById(R.id.txtNutritionFacts);
+        txtProductName = findViewById(R.id.txtProductName);
 
+        txtBarcode.setVisibility(View.INVISIBLE);
+        txtIngredients.setVisibility(View.INVISIBLE);
+        txtNutritionFacts.setVisibility(View.INVISIBLE);
+        txtProductName.setVisibility(View.INVISIBLE);
 
         btnScanBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
     private void fetchData(String barcode) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("barcodes").child(barcode);
-//        txtBarcode.setText(barcode);
+
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -129,6 +143,24 @@ public class HomeActivity extends AppCompatActivity {
                 BarcodeDataTemplate data = dataSnapshot.getValue(BarcodeDataTemplate.class);
 //                txtBarcode.setText(data.getNutritionFacts().get("totalFat"));
 //                txtBarcode.setText(dataSnapshot.child("productName").getValue(String.class));
+
+                txtProductName.setText(data.getProductName());
+                txtProductName.setVisibility(View.VISIBLE);
+
+                txtBarcode.setText("Barcode No.: " + barcode);
+                txtBarcode.setVisibility(View.VISIBLE);
+
+                txtIngredients.setVisibility(View.VISIBLE);
+                IngredientsRecyclerViewAdapter adapter = new IngredientsRecyclerViewAdapter();
+                adapter.setIngredients(data.getIngredients());
+                recyclerViewIngredients.setAdapter(adapter);
+                recyclerViewIngredients.setLayoutManager(new GridLayoutManager(HomeActivity.this, 2));
+
+                txtNutritionFacts.setVisibility(View.VISIBLE);
+                NutritionFactsRecyclerViewAdapter nutritionFactsAdapter = new NutritionFactsRecyclerViewAdapter();
+                nutritionFactsAdapter.setNutritionFacts(data.getNutritionFacts());
+                recyclerViewNutritionFacts.setAdapter(nutritionFactsAdapter);
+                recyclerViewNutritionFacts.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
             }
 
             @Override

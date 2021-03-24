@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Ingredient"
-        android:id="@+id/txtName"/>
+        android:text="Nutrition Fact"
+        android:id="@+id/txtNutritionFactItem"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
