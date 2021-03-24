@@ -3,6 +3,7 @@ package com.lorworwag.food_barcode_scanner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -24,8 +30,9 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private Button btnScanBarcode;
-//    private TextView txtBarcode;
+    private TextView txtBarcode;
     private Button btnSignOut;
+    private RecyclerView recyclerViewIngredients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +42,10 @@ public class HomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         btnScanBarcode = findViewById(R.id.btnScanBarcode);
-//        txtBarcode = findViewById(R.id.txtBarcode);
+        txtBarcode = findViewById(R.id.txtBarcode);
+        recyclerViewIngredients = findViewById(R.id.recyclerViewIngredients);
         btnSignOut = findViewById(R.id.btnSignOut);
+
 
         btnScanBarcode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,16 +95,18 @@ public class HomeActivity extends AppCompatActivity {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         if (intentResult.getContents() != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-            builder.setTitle("Result");
-            builder.setMessage(intentResult.getContents());
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.show();
+//            txtBarcode.setText(intentResult.getContents());
+            fetchData(intentResult.getContents());
+//            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+//            builder.setTitle("Result");
+//            builder.setMessage(intentResult.getContents());
+//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            builder.show();
         } else {
             Toast.makeText(getApplicationContext(), "OOPS... You did not scan anything", Toast.LENGTH_LONG).show();
 
@@ -104,8 +115,32 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    private void fetchData(String barcode) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("barcodes").child(barcode);
+//        txtBarcode.setText(barcode);
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                BarcodeDataTemplate data = dataSnapshot.getValue(BarcodeDataTemplate.class);
+//                txtBarcode.setText(data.getNutritionFacts().get("totalFat"));
+//                txtBarcode.setText(dataSnapshot.child("productName").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText(HomeActivity.this, "OOPS... You did not scan anything", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     private void signOut() {
+//        FirebaseAuth.getInstance().signOut();
 //        mAuth.signOut();
 //        updateUI(null);
     }
