@@ -19,3 +19,5 @@ These two barcodes have related data in the database. </br>
 
 Due to the demo video size is too large, watch the FULL Android demo here on Youtube: [Demo Link](https://youtu.be/uS3yvBQteZM)
 
+![SignIn SignUp Demo](demos/signin_signup_demo.gif)
+![Barcode Scan Demo](demos/barcode_scan_demo.gif)
