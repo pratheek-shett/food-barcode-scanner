@@ -23,7 +23,6 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
     private FirebaseAuth mAuth;
 
-//    private ConstraintLayout parent;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button btnRegister;
@@ -36,7 +35,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-//        parent = findViewById(R.id.parent);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         btnRegister = findViewById(R.id.btnRegister);
@@ -46,10 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createAccount(editTextEmail.getText().toString(), editTextPassword.getText().toString());
-
-                Toast.makeText(RegisterActivity.this,
-                        editTextEmail.getText().toString() + "\n" + editTextPassword.getText().toString(),
-                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -60,9 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount: " + email);
@@ -80,18 +72,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                             startActivity(intent);
-//                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user
                             Log.w(TAG, "createUserWithEmail: failure", task.getException());
                             Toast.makeText(RegisterActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
                         }
                     }
                 });
     }
-
-
-
 
 }

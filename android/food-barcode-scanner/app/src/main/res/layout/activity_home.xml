@@ -25,16 +25,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnSignOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Sign Out"
-            app:layout_constraintBottom_toBottomOf="@+id/btnScanBarcode"
-            app:layout_constraintEnd_toStartOf="@+id/btnScanBarcode"
-            app:layout_constraintTop_toTopOf="@+id/btnScanBarcode" />
-
-        <Button
             android:id="@+id/btnScanBarcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

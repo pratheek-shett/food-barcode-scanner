@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,15 +29,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivity";
-    private FirebaseAuth mAuth;
 
     private Button btnScanBarcode;
     private TextView txtBarcode;
-    private Button btnSignOut;
     private RecyclerView recyclerViewIngredients;
     private TextView txtIngredients;
     private RecyclerView recyclerViewNutritionFacts;
@@ -45,13 +46,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mAuth = FirebaseAuth.getInstance();
-
         btnScanBarcode = findViewById(R.id.btnScanBarcode);
         txtBarcode = findViewById(R.id.txtBarcode);
         recyclerViewIngredients = findViewById(R.id.recyclerViewIngredients);
         txtIngredients = findViewById(R.id.txtIngredients);
-        btnSignOut = findViewById(R.id.btnSignOut);
         recyclerViewNutritionFacts = findViewById(R.id.recyclerViewNutritionFacts);
         txtNutritionFacts = findViewById(R.id.txtNutritionFacts);
         txtProductName = findViewById(R.id.txtProductName);
@@ -67,24 +65,35 @@ public class HomeActivity extends AppCompatActivity {
                 scanBarcode(v);
             }
         });
+    }
 
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                Toast.makeText(HomeActivity.this, "Sign out from " + user.getEmail().toString(), Toast.LENGTH_LONG).show();
+    // ===================================================================================
+    // Create the menu and add Settings to menu.
+    // ===================================================================================
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-                mAuth.signOut();
-                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivity(intent);
-            }
-        });
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        txtBarcode.setText("abc");
     }
 
     @Override
@@ -92,7 +101,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onPause();
     }
 
-
+    // ===================================================================================
+    // Bring up the camera and scan barcode.
+    // ===================================================================================
     public void scanBarcode(View view) {
         IntentIntegrator intentIntegrator = new IntentIntegrator(HomeActivity.this);
         intentIntegrator.setPrompt("For flash use volume up key");
@@ -109,30 +120,18 @@ public class HomeActivity extends AppCompatActivity {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         if (intentResult.getContents() != null) {
-//            txtBarcode.setText(intentResult.getContents());
             fetchData(intentResult.getContents());
-//            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-//            builder.setTitle("Result");
-//            builder.setMessage(intentResult.getContents());
-//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            builder.show();
         } else {
             Toast.makeText(getApplicationContext(), "OOPS... You did not scan anything", Toast.LENGTH_LONG).show();
-
-//                txtBarcode.setText("abc");
         }
-
     }
 
+    // ===================================================================================
+    // Fetch data from Firebase Real-Time database and populate the data to screen.
+    // ===================================================================================
     private void fetchData(String barcode) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("barcodes").child(barcode);
-
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -141,8 +140,6 @@ public class HomeActivity extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 BarcodeDataTemplate data = dataSnapshot.getValue(BarcodeDataTemplate.class);
-//                txtBarcode.setText(data.getNutritionFacts().get("totalFat"));
-//                txtBarcode.setText(dataSnapshot.child("productName").getValue(String.class));
 
                 txtProductName.setText(data.getProductName());
                 txtProductName.setVisibility(View.VISIBLE);
@@ -170,12 +167,5 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void signOut() {
-//        FirebaseAuth.getInstance().signOut();
-//        mAuth.signOut();
-//        updateUI(null);
-    }
-
 
 }

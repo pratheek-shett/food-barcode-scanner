@@ -10,7 +10,6 @@ public class BarcodeDataTemplate {
     private String productName;
 
     public BarcodeDataTemplate() {
-
     }
 
     public BarcodeDataTemplate(String id, ArrayList<String> ingredients, HashMap<String, String> nutritionFacts, String productName) {

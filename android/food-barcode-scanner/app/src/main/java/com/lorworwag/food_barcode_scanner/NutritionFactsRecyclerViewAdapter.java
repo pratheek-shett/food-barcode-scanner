@@ -43,18 +43,19 @@ public class NutritionFactsRecyclerViewAdapter extends RecyclerView.Adapter<Nutr
     }
 
     public void setNutritionFacts(HashMap<String, String> nutritionFactsHM) {
+        // convert HashMap items to ArrayList
         Iterator iterator = nutritionFactsHM.entrySet().iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             String str = "";
             Map.Entry element = (Map.Entry) iterator.next();
             str += element.getKey() + ": " + element.getValue();
             nutritionFacts.add(str);
         }
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtNutritionFactItem;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtNutritionFactItem = itemView.findViewById(R.id.txtNutritionFactItem);
